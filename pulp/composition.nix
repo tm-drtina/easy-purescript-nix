@@ -2,7 +2,7 @@
 
 {pkgs ? import <nixpkgs> {
     inherit system;
-  }, system ? builtins.currentSystem, nodejs ? pkgs."nodejs_20"}:
+  }, system ? builtins.currentSystem, nodejs ? pkgs."nodejs-slim_20"}:
 
 let
   nodeEnv = pkgs.callPackage ./node-env.nix {

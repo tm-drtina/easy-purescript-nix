@@ -24,7 +24,7 @@ let
     stdenv.mkDerivation {
       name = "node-tarball-${name}-${version}";
       inherit src;
-      buildInputs = [ nodejs ];
+      buildInputs = [ nodejs.npm ];
       buildPhase = ''
         export HOME=$TMPDIR
         tgzFile=$(npm pack | tail -n 1) # Hooks to the pack command will add output (https://docs.npmjs.com/misc/scripts)
@@ -495,7 +495,7 @@ let
     in
     stdenv.mkDerivation ({
       name = "${name}${if version == null then "" else "-${version}"}";
-      buildInputs = [ tarWrapper python nodejs ]
+      buildInputs = [ tarWrapper python nodejs nodejs.npm ]
         ++ lib.optional (stdenv.isLinux) util-linux
         ++ lib.optional (stdenv.isDarwin) libtool
         ++ buildInputs;
@@ -587,7 +587,7 @@ let
       stdenv.mkDerivation ({
         name = "node-dependencies-${name}${if version == null then "" else "-${version}"}";
 
-        buildInputs = [ tarWrapper python nodejs ]
+        buildInputs = [ tarWrapper python nodejs nodejs.npm ]
           ++ lib.optional (stdenv.isLinux) util-linux
           ++ lib.optional (stdenv.isDarwin) libtool
           ++ buildInputs;
@@ -659,7 +659,7 @@ let
     stdenv.mkDerivation ({
       name = "node-shell-${name}${if version == null then "" else "-${version}"}";
 
-      buildInputs = [ python nodejs ] ++ lib.optional (stdenv.isLinux) util-linux ++ buildInputs;
+      buildInputs = [ python nodejs nodejs.npm ] ++ lib.optional (stdenv.isLinux) util-linux ++ buildInputs;
       buildCommand = ''
         mkdir -p $out/bin
         cat > $out/bin/shell <<EOF
